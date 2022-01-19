@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 import "ds-test/test.sol";
 
-import "./Balot.sol";
+import {Balot} from "./Balot.sol";
 
 contract BalotTest is DSTest {
     Balot balot;
@@ -12,11 +12,7 @@ contract BalotTest is DSTest {
         balot = new Balot();
     }
 
-    function testFail_basic_sanity() public {
-        assertTrue(false);
-    }
-
-    function test_basic_sanity() public {
-        assertTrue(true);
+    function testGetName() public {
+      assertEq(balot.name(), "Balot");
     }
 }
