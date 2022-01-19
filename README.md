@@ -5,7 +5,7 @@
 
 ## Contributing
 
-- It's required you have [`dapptools`]https://github.com/dapphub/dapptools)
+- It's required you have [`dapptools`](https://github.com/dapphub/dapptools)
   installed.
 - Clone the repository and e.g. run the tests.
 
