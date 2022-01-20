@@ -14,7 +14,7 @@ contract Balot is ERC721URIStorage, Ownable {
 
   constructor() ERC721("Balot", "BALOT") {}
 
-  /// @notice Safely mints an NFT to an address and given a `tokenURI`
+  /// @notice Allows the owner to safely mint an NFT to an address and given a `tokenURI`
   /// @dev Requires ownership of the contract
   /// @param to The address that should own the NFT
   /// @param tokenURI The HTTP URL that hosts the NFT's metadata.json
@@ -29,5 +29,16 @@ contract Balot is ERC721URIStorage, Ownable {
 
     _tokenIds.increment();
     return newTokenId;
+  }
+
+  /// @notice Allows the owner to set each `tokenId`'s `tokenURI`
+  /// @dev Requires ownership of the contract
+  /// @param tokenId The id of the token to change
+  /// @param tokenURI The HTTP URL that hosts the NFT's metadata.json
+  function setTokenURI(
+    uint256 tokenId,
+    string memory tokenURI
+  ) onlyOwner external {
+    _setTokenURI(tokenId, tokenURI);
   }
 }

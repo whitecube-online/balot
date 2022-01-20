@@ -11,6 +11,15 @@ contract MockCaller {
       string memory uri0 = "https://unauthorized.com";
       balot.safeMint(msg.sender, uri0);
   }
+
+  function setTokenURIFrom(
+    address token,
+    uint256 tokenId,
+    string memory uri
+  ) public {
+      Balot balot = Balot(token);
+      balot.setTokenURI(tokenId, uri);
+  }
 }
 
 contract BalotTest is DSTest {
@@ -20,6 +29,28 @@ contract BalotTest is DSTest {
     function setUp() public {
         balot = new Balot();
         mc = new MockCaller();
+    }
+
+    function testFailSettingTokenURIFromUnauthorizedAccount() public {
+      string memory uri0 = "https://example.com/metadata0.json";
+      uint256 tokenId0 = balot.safeMint(msg.sender, uri0);
+      assertEq(tokenId0, 0);
+
+      assertEq(balot.tokenURI(tokenId0), uri0);
+      string memory uri1 = "https://unauthorized.com";
+      mc.setTokenURIFrom(address(balot), tokenId0, uri1);
+      assertEq(balot.tokenURI(tokenId0), uri0);
+    }
+
+    function testSettingTokenURIAsAuthorizedAccount() public {
+      string memory uri0 = "https://example.com/metadata0.json";
+      uint256 tokenId0 = balot.safeMint(msg.sender, uri0);
+      assertEq(tokenId0, 0);
+
+      string memory uri1 = "https://updateddomain.com/metadata0.json";
+      assertEq(balot.tokenURI(tokenId0), uri0);
+      balot.setTokenURI(tokenId0, uri1);
+      assertEq(balot.tokenURI(tokenId0), uri1);
     }
 
     function testOwnership() public {
