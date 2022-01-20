@@ -22,6 +22,10 @@ contract BalotTest is DSTest {
         mc = new MockCaller();
     }
 
+    function testOwnership() public {
+      assertEq(balot.owner(), address(this));
+    }
+
     function testCollectionData() public {
       assertEq(balot.name(), "Balot");
       assertEq(balot.symbol(), "BALOT");
