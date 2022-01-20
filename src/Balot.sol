@@ -6,12 +6,19 @@ import {ERC721URIStorage} from "openzeppelin-contracts/token/ERC721/extensions/E
 import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
 import {Counters} from "openzeppelin-contracts/utils/Counters.sol";
 
+/// @title Balot is an NFT collection
+/// @author Tim Daubenschütz
 contract Balot is ERC721URIStorage, Ownable {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
   constructor() ERC721("Balot", "BALOT") {}
 
+  /// @notice Safely mints an NFT to an address and given a `tokenURI`
+  /// @dev Requires ownership of the contract
+  /// @param to The address that should own the NFT
+  /// @param tokenURI The HTTP URL that hosts the NFT's metadata.json
+  /// @return tokenId The identifier uniquely defining the token
   function safeMint(
     address to,
     string memory tokenURI
