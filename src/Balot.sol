@@ -12,7 +12,11 @@ contract Balot is ERC721URIStorage, Ownable {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  constructor() ERC721("Balot", "BALOT") {}
+  /// @notice Upon initialization, ownership of the contract is immediately transferred
+  /// @param nextOwner The address the contract ownership is transferred to
+  constructor(address nextOwner) ERC721("Balot", "BALOT") {
+    _transferOwnership(nextOwner);
+  }
 
   /// @notice Allows the owner to safely mint an NFT to an address and given a `tokenURI`
   /// @dev Requires ownership of the contract

@@ -27,8 +27,13 @@ contract BalotTest is DSTest {
     MockCaller mc;
 
     function setUp() public {
-        balot = new Balot();
+        balot = new Balot(address(this));
         mc = new MockCaller();
+    }
+
+    function testTransferringOwnershipUponInitialization() public {
+        Balot nextBalot = new Balot(address(1));
+        assertEq(nextBalot.owner(), address(1));
     }
 
     function testFailSettingTokenURIFromUnauthorizedAccount() public {
