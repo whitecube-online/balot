@@ -26,6 +26,18 @@ contract BalotTest is DSTest {
       assertEq(balot.owner(), address(this));
     }
 
+    function testRenouncingOwnership() public {
+      assertEq(balot.owner(), address(this));
+      balot.renounceOwnership();
+      assertEq(balot.owner(), address(0));
+    }
+
+    function testTransferringOwnership() public {
+      assertEq(balot.owner(), address(this));
+      balot.transferOwnership(address(1));
+      assertEq(balot.owner(), address(1));
+    }
+
     function testCollectionData() public {
       assertEq(balot.name(), "Balot");
       assertEq(balot.symbol(), "BALOT");
