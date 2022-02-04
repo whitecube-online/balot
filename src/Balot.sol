@@ -27,11 +27,11 @@ contract Balot is ERC721URIStorage, Ownable {
     address to,
     string memory tokenURI
   ) external onlyOwner returns (uint256) {
-    _tokenIds.increment();
-
     uint256 newTokenId = _tokenIds.current();
     _safeMint(to, newTokenId);
     _setTokenURI(newTokenId, tokenURI);
+
+    _tokenIds.increment();
     return newTokenId;
   }
 
