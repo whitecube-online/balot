@@ -2,6 +2,7 @@
 pragma solidity ^0.8.6;
 
 import "ds-test/test.sol";
+import {ERC721Holder} from "openzeppelin-contracts/token/ERC721/utils/ERC721Holder.sol";
 
 import {Balot} from "./Balot.sol";
 
@@ -22,7 +23,7 @@ contract MockCaller {
   }
 }
 
-contract BalotTest is DSTest {
+contract BalotTest is DSTest, ERC721Holder {
     Balot balot;
     MockCaller mc;
 
@@ -89,6 +90,20 @@ contract BalotTest is DSTest {
       assertEq(tokenId0, 0);
     }
 
+    function testTransfer() public {
+      string memory uri0 = "https://example.com/metadata0.json";
+      uint256 tokenId = balot.safeMint(address(this), uri0);
+      assertEq(balot.ownerOf(tokenId), address(this));
+      balot.transferFrom(address(this), address(1337), tokenId);
+      assertEq(balot.ownerOf(tokenId), address(1337));
+    }
+
+    function testSupportsInterface() public {
+      // NOTE: hash values taken from: https://eips.ethereum.org/EIPS/eip-721
+      assertTrue(balot.supportsInterface(0x80ac58cd)); // ERC721
+      assertTrue(balot.supportsInterface(0x5b5e139f)); // ERC721Metadata
+    }
+
     function testSafeMint() public {
       string memory uri0 = "https://example.com/metadata0.json";
       uint256 tokenId0 = balot.safeMint(msg.sender, uri0);
@@ -102,5 +117,11 @@ contract BalotTest is DSTest {
       assertEq(tokenId1, 1);
       assertEq(balot.tokenURI(tokenId1), uri1);
       assertEq(balot.ownerOf(tokenId1), msg.sender);
+
+      string memory uri2 = "https://example.com/metadata2.json";
+      uint256 tokenId2 = balot.safeMint(address(this), uri2);
+      assertEq(tokenId2, 2);
+      assertEq(balot.tokenURI(tokenId2), uri2);
+      assertEq(balot.ownerOf(tokenId2), address(this));
     }
 }
