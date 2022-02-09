@@ -17,6 +17,8 @@
 dapp create Balot <constructor nextOwner, baseURI> --verify
 ```
 
+Note: String arguments have to be double quoted in bash, e.g., `'"hello world"'`
+
 5. In case verification fails in deploy step, it can later be done too.
 
 ```bash
