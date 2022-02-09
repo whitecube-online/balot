@@ -5,13 +5,19 @@
 
 ## Deploying
 
-To find open RPC interfaces, visit:
-
-- https://ethereumnodes.com/
+1. Find open RPC interfaces by visiting: https://ethereumnodes.com and set
+   `ETH_RPC_URL`.
+2. In `.sethrc`, change `ETH_FROM` to current account
+3. With
+   [`web3-eth-accounts`](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-accounts.html#web3-eth-accounts)
+   create keystore3 JSON and copy into `keys.json` file.
+4. Execute the command below:
 
 ```bash
 dapp create Balot <constructor nextOwner, baseURI> --verify
 ```
+
+5. In case verification fails in deploy step, it can later be done too.
 
 ```bash
 dapp verify-contract ./src/Balot.sol:Balot <contract addr> "<constructor nextOwner, baseURI>"
