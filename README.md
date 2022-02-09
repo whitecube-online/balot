@@ -10,11 +10,11 @@ To find open RPC interfaces, visit:
 - https://ethereumnodes.com/
 
 ```bash
-dapp create Balot <constructor nextOwner> --verify
+dapp create Balot <constructor nextOwner, baseURI> --verify
 ```
 
 ```bash
-dapp verify-contract ./src/Balot.sol:Balot <contract addr> "<constructor nextOwner>"
+dapp verify-contract ./src/Balot.sol:Balot <contract addr> "<constructor nextOwner, baseURI>"
 ```
 
 ## Contracts

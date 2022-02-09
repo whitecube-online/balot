@@ -6,24 +6,40 @@ import {ERC721URIStorage} from "openzeppelin-contracts/token/ERC721/extensions/E
 import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
 import {Counters} from "openzeppelin-contracts/utils/Counters.sol";
 
+import {BaseURIStorage} from "./BaseURIStorage.sol";
+
 /// @title Balot is an NFT collection
 /// @author Tim Daubenschütz
 /// @custom:security-contact tim@daubenschuetz.de
-contract Balot is ERC721, ERC721URIStorage, Ownable {
+contract Balot is ERC721, ERC721URIStorage, Ownable, BaseURIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
   /// @notice Upon initialization, ownership of the contract is immediately transferred
   /// @param nextOwner The address the contract ownership is transferred to
-  constructor(address nextOwner) ERC721("Balot", "BALOT") {
+  /// @param uri The `baseURI` that is used to construct the final `tokenURI`
+  constructor(address nextOwner, string memory uri) ERC721("Balot", "BALOT") {
     transferOwnership(nextOwner);
+    _setBaseURI(uri);
+  }
+
+  /// @notice Overrides ERC721's `_baseURI` function such that `tokenURI` start using it
+  function _baseURI() internal view override(ERC721, BaseURIStorage) returns (string memory) {
+    return super._baseURI();
+  }
+
+  /// @notice Allows the owner to set all tokens' `_baseURI` value
+  /// @param uri The HTTP URL portion that hosts the NFT's metadata.
+  function setBaseURI(
+    string memory uri
+  ) external onlyOwner {
+    super._setBaseURI(uri);
   }
 
   /// @notice Allows the owner to safely mint an NFT to an address and given a `uri`
   /// @dev Requires ownership of the contract
-  /// @param to The address that should own the NFT
-  /// @param uri The HTTP URL that hosts the NFT's metadata.json
-  /// @return tokenId The identifier uniquely defining the token
+  /// @param to The address that owns the NFT
+  /// @param uri The path portion of an URL that specifies the location of the metadata
   function safeMint(
     address to,
     string memory uri
@@ -42,7 +58,7 @@ contract Balot is ERC721, ERC721URIStorage, Ownable {
   function setTokenURI(
     uint256 tokenId,
     string memory uri
-  ) onlyOwner external {
+  ) external onlyOwner {
     _setTokenURI(tokenId, uri);
   }
 
