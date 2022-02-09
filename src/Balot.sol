@@ -16,7 +16,7 @@ contract Balot is ERC721, ERC721URIStorage, Ownable {
   /// @notice Upon initialization, ownership of the contract is immediately transferred
   /// @param nextOwner The address the contract ownership is transferred to
   constructor(address nextOwner) ERC721("Balot", "BALOT") {
-    _transferOwnership(nextOwner);
+    transferOwnership(nextOwner);
   }
 
   /// @notice Allows the owner to safely mint an NFT to an address and given a `uri`
