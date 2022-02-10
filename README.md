@@ -25,6 +25,15 @@ Note: String arguments have to be double quoted in bash, e.g., `'"hello world"'`
 dapp verify-contract ./src/Balot.sol:Balot <contract addr> "<constructor nextOwner, baseURI>"
 ```
 
+Another option to get the contract code verified by Etherscan is by flattening
+the file with `hevm`:
+
+```bash
+hevm flatten --source-file src/Balot.sol > out/Balot.sol
+```
+
+`Balot.sol` can then just be uploaded through Etherscan's web form.
+
 ## Contracts
 
 - Goerli
