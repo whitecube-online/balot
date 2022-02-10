@@ -31,7 +31,7 @@ contract Balot is ERC721, ERC721URIStorage, Ownable, BaseURIStorage {
   /// @notice Allows the owner to set all tokens' `_baseURI` value
   /// @param uri The HTTP URL portion that hosts the NFT's metadata.
   function setBaseURI(
-    string memory uri
+    string calldata uri
   ) external onlyOwner {
     super._setBaseURI(uri);
   }
@@ -42,7 +42,7 @@ contract Balot is ERC721, ERC721URIStorage, Ownable, BaseURIStorage {
   /// @param uri The path portion of an URL that specifies the location of the metadata
   function safeMint(
     address to,
-    string memory uri
+    string calldata uri
   ) external onlyOwner returns (uint256) {
     uint256 newTokenId = _tokenIds.current();
     _safeMint(to, newTokenId);
@@ -57,7 +57,7 @@ contract Balot is ERC721, ERC721URIStorage, Ownable, BaseURIStorage {
   /// @param uri The HTTP URL that hosts the NFT's metadata.json
   function setTokenURI(
     uint256 tokenId,
-    string memory uri
+    string calldata uri
   ) external onlyOwner {
     _setTokenURI(tokenId, uri);
   }
