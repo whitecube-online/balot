@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.6;
 
-import "ds-test/test.sol";
+import "forge-std/Test.sol";
 import {ERC721} from "openzeppelin-contracts/token/ERC721/ERC721.sol";
 
 import {BaseURIStorage} from "./BaseURIStorage.sol";
@@ -23,7 +23,7 @@ contract BaseURIMock is ERC721, BaseURIStorage {
   }
 }
 
-contract BaseURIStorageTest is DSTest {
+contract BaseURIStorageTest is Test {
   BaseURIMock mock;
 
     function setUp() public {

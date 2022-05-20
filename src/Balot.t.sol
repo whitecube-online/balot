@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.6;
 
-import "ds-test/test.sol";
+import "forge-std/Test.sol";
 import {ERC721Holder} from "openzeppelin-contracts/token/ERC721/utils/ERC721Holder.sol";
 
 import {Balot} from "./Balot.sol";
@@ -33,7 +33,7 @@ contract MockCaller {
 
 string constant baseURI = "https://example.com/";
 
-contract BalotTest is DSTest, ERC721Holder {
+contract BalotTest is Test, ERC721Holder {
   Balot balot;
   MockCaller mc;
 
