@@ -1,6 +1,6 @@
 # Balot NFT
 
-> A radical new model turns the NFT into a tool for decolonization. 
+> A radical new model turns the NFT into a tool for decolonization.
 
 ## Deploying
 
@@ -49,6 +49,12 @@ hevm flatten --source-file src/Balot.sol > out/Balot.sol
 - It's required you have [`dapptools`](https://github.com/dapphub/dapptools)
   installed.
 - Clone the repository and e.g. run the tests.
+
+## Changelog
+
+### 0.0.1
+
+- Initial mainnet deployment
 
 ## Testing
 
