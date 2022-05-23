@@ -1,20 +1,23 @@
-name: "unit tests"
-on:
-  pull_request:
-  push:
+on: [push]
+
+name: test
+
 jobs:
-  tests:
+  check:
+    name: Foundry project
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.3.4
-      with:
-        submodules: recursive
-    - uses: cachix/install-nix-action@v13
-      with:
-        nix_path: nixpkgs=channel:nixos-unstable
-    - run: curl https://dapp.tools/install | sh
-    - run: dapp test -vv
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
+      - name: Run tests
+        run: forge test -vvv
 
-
+      - name: Run snapshot
+        run: forge snapshot

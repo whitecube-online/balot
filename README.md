@@ -44,25 +44,22 @@ hevm flatten --source-file src/Balot.sol > out/Balot.sol
 - Inheritance scheme inspired by OpenZeppelin's [contract
   wizard](https://wizard.openzeppelin.com/#erc721).
 
-## Contributing
+## Contributing & Testing
 
-- It's required you have [`dapptools`](https://github.com/dapphub/dapptools)
+- It's required you have [`foundry`](https://github.com/foundry-rs/foundry)
   installed.
-- Clone the repository and e.g. run the tests.
+
+```bash
+git clone git@github.com:whitecube-online/balot.git
+forge install
+forge test
+```
 
 ## Changelog
 
 ### 0.0.1
 
 - Initial mainnet deployment
-
-## Testing
-
-The contracts are tested using `dapp`. To run them, call:
-
-```bash
-dapp test
-```
 
 ## License
 
