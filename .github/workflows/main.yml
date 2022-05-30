@@ -30,8 +30,13 @@ jobs:
         with:
           submodules: recursive
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
       - name: Install HartHat
-        run: npm install --dev
+        run: npm ci --dev
 
       - name: Run test
         run: npx hardhat test
