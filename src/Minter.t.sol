@@ -17,6 +17,11 @@ contract MockCaller {
     Minter minter = Minter(collection);
     minter.safeMintRange(collection, msg.sender, msg.sender, start, end);
   }
+
+  function callTransferCollection(address collection, address nextOwner) public {
+    Minter minter = Minter(collection);
+    minter.transferCollection(collection, nextOwner);
+  }
 }
 
 
@@ -104,5 +109,22 @@ contract MinterTest is Test, ERC721Holder {
     balot.tokenURI(301);
 
     assertEq(balot.owner(), address(nextOwner));
+  }
+
+  function testTransferCollection() public {
+    balot.transferOwnership(address(minter));
+    minter.transferCollection(address(balot), address(this));
+    
+    assertEq(balot.owner(), address(this));
+  }
+
+  function testUnauthorizedTransferCollection() public {
+    balot.transferOwnership(address(minter));
+    address nextOwner = address(this);
+
+    vm.expectRevert();
+    mc.callTransferCollection(
+      address(balot), nextOwner
+    );
   }
 }

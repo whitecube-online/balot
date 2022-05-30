@@ -27,4 +27,9 @@ contract Minter is Ownable {
     }
     b.transferOwnership(nextOwner);
   }
+
+  function transferCollection(address collection, address nextOwner) external onlyOwner {
+    Balot b = Balot(collection);
+    b.transferOwnership(nextOwner);
+  }
 }
