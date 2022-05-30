@@ -105,4 +105,10 @@ contract MinterTest is Test, ERC721Holder {
 
     assertEq(balot.owner(), address(nextOwner));
   }
+
+  function testTransferCollection() public {
+    balot.transferOwnership(address(minter));
+    minter.transferCollection(address(balot), address(this));
+    assertEq(balot.owner(), address(this));
+  }
 }

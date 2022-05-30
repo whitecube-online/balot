@@ -99,4 +99,49 @@ describe("Balot", async () => {
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
+
+  describe("Failing Minter.safeMintRange", async () => {
+    let minter, minterOwner, nextOwner, recipient;
+
+    beforeEach(async () => {
+      [
+        ,
+        minterOwner,
+        nextOwner,
+        recipient,
+        attacker,
+        attackerNextOwner,
+        attackerRecipient,
+      ] = await ethers.getSigners();
+
+      const Minter = await ethers.getContractFactory("Minter", minterOwner);
+
+      // 1. Deploy Minter
+      minter = await Minter.deploy();
+
+      // 2. Tranfer Balot ownership to minter
+      await balot.transferOwnership(minter.address);
+
+      const start = 1,
+        end = 9999;
+      // 3. Range mint + transfer Balot ownership
+      await expect(
+        minter.safeMintRange(
+          balot.address,
+          nextOwner.address,
+          recipient.address,
+          start,
+          end
+        )
+      ).to.be.revertedWith(
+        "Transaction reverted: contract call run out of gas and made the transaction revert"
+      );
+    });
+
+    it("should still be transferrable", async () => {
+      minter.transferCollection(balot.address, owner.address);
+
+      expect(await balot.owner()).to.be.equal(owner.address);
+    });
+  });
 });
