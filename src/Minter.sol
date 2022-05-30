@@ -14,11 +14,10 @@ contract Minter {
     address nextOwner,
     address to,
     uint16 start,
-    uint16 end,
-    uint16 step
+    uint16 end
   ) external {
     Balot b = Balot(collection);
-    for (uint256 tokenId = start; tokenId <= end; tokenId += step) {
+    for (uint256 tokenId = start; tokenId <= end; tokenId += 1) {
       b.safeMint(to, string(abi.encodePacked(
         Strings.toString(tokenId),
         ".json"

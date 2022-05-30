@@ -32,15 +32,13 @@ contract MinterTest is Test, ERC721Holder {
     address to = address(1337);
     uint16 start = 1;
     uint16 end = 300;
-    uint16 step = 1;
 
     minter.safeMintRange(
       collection,
       nextOwner,
       to,
       start,
-      end,
-      step
+      end
     );
   }
 
@@ -57,15 +55,13 @@ contract MinterTest is Test, ERC721Holder {
     address to = address(1337);
     uint16 start = 1;
     uint16 end = 300;
-    uint16 step = 1;
 
     minter.safeMintRange(
       collection,
       nextOwner,
       to,
       start,
-      end,
-      step
+      end
     );
     assertEq(balot.ownerOf(299), address(1337));
     assertEq(balot.ownerOf(300), address(1337));

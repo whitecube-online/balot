@@ -44,16 +44,14 @@ describe("Balot", async () => {
       await balot.transferOwnership(minter.address);
 
       const start = 1,
-        end = 300,
-        step = 1;
+        end = 300;
       // 3. Range mint + transfer Balot ownership
       await minter.safeMintRange(
         balot.address,
         nextOwner.address,
         recipient.address,
         start,
-        end,
-        step
+        end
       );
     });
 
@@ -87,8 +85,7 @@ describe("Balot", async () => {
 
     it("should not be allowed", async () => {
       const start = 1,
-        end = 300,
-        step = 1;
+        end = 300;
 
       const attackedMinter = await minter.connect(attacker);
       await attackedMinter.safeMintRange(
@@ -96,8 +93,7 @@ describe("Balot", async () => {
         attackerNextOwner.address,
         attackerRecipient.address,
         start,
-        end,
-        step
+        end
       );
 
       const actualNewOwnerAddr = await balot.owner();
