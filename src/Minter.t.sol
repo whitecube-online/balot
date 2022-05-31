@@ -7,11 +7,25 @@ import {ERC721Holder} from "openzeppelin-contracts/token/ERC721/utils/ERC721Hold
 import {Balot} from "./Balot.sol";
 import {Minter} from "./Minter.sol";
 
+contract MockCaller {
+
+  function callSafeMintRangeToSelf(
+    address collection,
+    uint16 start,
+    uint16 end
+  ) public {
+    Minter minter = Minter(collection);
+    minter.safeMintRange(collection, msg.sender, msg.sender, start, end);
+  }
+}
+
+
 string constant baseURI = "https://example.com/";
 
 contract MinterTest is Test, ERC721Holder {
   Balot balot;
   Minter minter;
+  MockCaller mc;
 
   function setUp() public {
     balot = new Balot(address(this), baseURI);
@@ -22,6 +36,8 @@ contract MinterTest is Test, ERC721Holder {
     assertEq(balot.ownerOf(tokenId0), address(this));
 
     minter = new Minter();
+
+    mc = new MockCaller();
   }
 
   function testRunSafeMint() public {
@@ -37,6 +53,21 @@ contract MinterTest is Test, ERC721Holder {
       collection,
       nextOwner,
       to,
+      start,
+      end
+    );
+  }
+
+  function testUnauthorizedRangeMint() public {
+    balot.transferOwnership(address(minter));
+
+    address collection = address(balot);
+    uint16 start = 1;
+    uint16 end = 300;
+
+    vm.expectRevert();
+    mc.callSafeMintRangeToSelf(
+      collection,
       start,
       end
     );

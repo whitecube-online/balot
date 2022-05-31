@@ -88,19 +88,15 @@ describe("Balot", async () => {
         end = 300;
 
       const attackedMinter = await minter.connect(attacker);
-      await attackedMinter.safeMintRange(
-        balot.address,
-        attackerNextOwner.address,
-        attackerRecipient.address,
-        start,
-        end
-      );
-
-      const actualNewOwnerAddr = await balot.owner();
-
-      expect(actualNewOwnerAddr).to.not.be.equal(attackerNextOwner.address);
-      expect(actualNewOwnerAddr).to.be.equal(owner.address);
-      expect(await balot.balanceOf(attackerRecipient.address)).to.equal(0);
+      await expect(
+        attackedMinter.safeMintRange(
+          balot.address,
+          attackerNextOwner.address,
+          attackerRecipient.address,
+          start,
+          end
+        )
+      ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
 });
