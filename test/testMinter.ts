@@ -1,11 +1,14 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
-const { beforeEach } = require("mocha");
+import { expect } from "chai";
+import { beforeEach } from "mocha";
+
+import { Contract } from "ethers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { ethers } from "hardhat";
 
 const baseUri = "https://example.com/";
 
 describe("Balot", async () => {
-  let balot, owner;
+  let balot: Contract, owner: SignerWithAddress;
 
   beforeEach(async () => {
     [owner] = await ethers.getSigners();
@@ -30,7 +33,10 @@ describe("Balot", async () => {
   });
 
   describe("Minter.safeMintRange in order", async () => {
-    let minter, minterOwner, nextOwner, recipient;
+    let minter: Contract,
+      minterOwner: SignerWithAddress,
+      nextOwner: SignerWithAddress,
+      recipient: SignerWithAddress;
 
     beforeEach(async () => {
       [, minterOwner, nextOwner, recipient] = await ethers.getSigners();
@@ -61,18 +67,15 @@ describe("Balot", async () => {
   });
 
   describe("Minter.safeMintRange by attacker", async () => {
-    let minter, minterOwner, nextOwner, recipient;
+    let minter: Contract,
+      minterOwner: SignerWithAddress,
+      attacker: SignerWithAddress,
+      attackerNextOwner: SignerWithAddress,
+      attackerRecipient: SignerWithAddress;
 
     beforeEach(async () => {
-      [
-        ,
-        minterOwner,
-        nextOwner,
-        recipient,
-        attacker,
-        attackerNextOwner,
-        attackerRecipient,
-      ] = await ethers.getSigners();
+      [, minterOwner, attacker, attackerNextOwner, attackerRecipient] =
+        await ethers.getSigners();
 
       const Minter = await ethers.getContractFactory("Minter", minterOwner);
 
@@ -101,18 +104,13 @@ describe("Balot", async () => {
   });
 
   describe("Failing Minter.safeMintRange", async () => {
-    let minter, minterOwner, nextOwner, recipient;
+    let minter: Contract,
+      minterOwner: SignerWithAddress,
+      nextOwner: SignerWithAddress,
+      recipient: SignerWithAddress;
 
     beforeEach(async () => {
-      [
-        ,
-        minterOwner,
-        nextOwner,
-        recipient,
-        attacker,
-        attackerNextOwner,
-        attackerRecipient,
-      ] = await ethers.getSigners();
+      [, minterOwner, nextOwner, recipient] = await ethers.getSigners();
 
       const Minter = await ethers.getContractFactory("Minter", minterOwner);
 

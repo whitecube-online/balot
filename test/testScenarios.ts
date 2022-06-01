@@ -1,14 +1,17 @@
-const { expect } = require("chai");
-const { ethers, network } = require("hardhat");
-const { before, beforeEach } = require("mocha");
-const fs = require("fs");
+import { expect } from "chai";
+import { before, beforeEach } from "mocha";
 
-const dotenv = require("dotenv");
-const { min } = require("bn.js");
+import { ethers, network } from "hardhat";
+import { Contract } from "ethers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+
+import fs from "fs";
+import dotenv from "dotenv";
+
 dotenv.config();
 
 const BALOT_ABI = JSON.parse(
-  fs.readFileSync(__dirname + "/../assets/Balot.abi")
+  fs.readFileSync(`${__dirname}/../assets/Balot.abi`, "utf8")
 );
 
 const ADDRESSES = {
@@ -17,7 +20,10 @@ const ADDRESSES = {
 };
 
 describe("All good scenario", async () => {
-  let minterOwner, minter, balotFromSafe, initialSafeBalance;
+  let minterOwner: SignerWithAddress,
+    minter: Contract,
+    balotFromSafe: Contract,
+    initialSafeBalance: number;
 
   before(async () => {
     await network.provider.request({
@@ -54,6 +60,12 @@ describe("All good scenario", async () => {
 
     const Minter = await ethers.getContractFactory("Minter", minterOwner);
     minter = await Minter.deploy();
+
+    console.debug(
+      `Minter deployment gas used: ${
+        (await minter.deployTransaction.wait()).gasUsed
+      }`
+    );
   });
 
   it("Step 2/3: transfer Balot ownership", async () => {
@@ -72,7 +84,7 @@ describe("All good scenario", async () => {
   });
 
   it("Step 3/3: safe mint range", async () => {
-    await minter.safeMintRange(
+    const safeMintRangeTx = await minter.safeMintRange(
       ADDRESSES.balot,
       ADDRESSES.safe,
       ADDRESSES.safe,
@@ -87,11 +99,15 @@ describe("All good scenario", async () => {
     expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
       ADDRESSES.safe.toUpperCase()
     );
+
+    console.debug(
+      `SafeMintRange gas used: ${(await safeMintRangeTx.wait()).gasUsed}`
+    );
   });
 });
 
 describe("Failing mint & reverting scenario", async () => {
-  let minterOwner, minter, balotFromSafe;
+  let minterOwner: SignerWithAddress, minter: Contract, balotFromSafe: Contract;
 
   before(async () => {
     await network.provider.request({
@@ -128,15 +144,17 @@ describe("Failing mint & reverting scenario", async () => {
 
     const Minter = await ethers.getContractFactory("Minter", minterOwner);
     minter = await Minter.deploy();
+
+    console.debug(
+      `Minter deployment gas used: ${
+        (await minter.deployTransaction.wait()).gasUsed
+      }`
+    );
   });
 
   it("Step 2/4: transfer Balot ownership", async () => {
     const safeSigner = await ethers.getSigner(ADDRESSES.safe);
     balotFromSafe = new ethers.Contract(ADDRESSES.balot, BALOT_ABI, safeSigner);
-
-    initialSafeBalance = parseInt(
-      await balotFromSafe.balanceOf(ADDRESSES.safe)
-    );
 
     await balotFromSafe.transferOwnership(minter.address);
 
@@ -158,10 +176,19 @@ describe("Failing mint & reverting scenario", async () => {
     );
   });
   it("Step 4/4: transfer Balot ownership back to Safe", async () => {
-    await minter.transferCollection(ADDRESSES.balot, ADDRESSES.safe);
+    const transferCollectionTx = await minter.transferCollection(
+      ADDRESSES.balot,
+      ADDRESSES.safe
+    );
 
     expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
       ADDRESSES.safe.toUpperCase()
+    );
+
+    console.debug(
+      `transferCollection gas used: ${
+        (await transferCollectionTx.wait()).gasUsed
+      }`
     );
   });
 });
