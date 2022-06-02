@@ -43,13 +43,13 @@ describe("All good scenario", async () => {
       ADDRESSES.safe,
       "0x10000000000000000",
     ]);
-    await network.provider.request({
+    return await network.provider.request({
       method: "hardhat_impersonateAccount",
       params: [ADDRESSES.safe],
     });
   });
   after(async () => {
-    await network.provider.request({
+    return await network.provider.request({
       method: "hardhat_stopImpersonatingAccount",
       params: [ADDRESSES.safe],
     });
@@ -66,6 +66,7 @@ describe("All good scenario", async () => {
         (await minter.deployTransaction.wait()).gasUsed
       }`
     );
+    return;
   });
 
   it("Step 2/3: transfer Balot ownership", async () => {
@@ -81,6 +82,7 @@ describe("All good scenario", async () => {
     expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
       minter.address.toUpperCase()
     );
+    return;
   });
 
   it("Step 3/3: safe mint range", async () => {
@@ -103,6 +105,7 @@ describe("All good scenario", async () => {
     console.debug(
       `SafeMintRange gas used: ${(await safeMintRangeTx.wait()).gasUsed}`
     );
+    return;
   });
 });
 
@@ -127,13 +130,13 @@ describe("Failing mint & reverting scenario", async () => {
       ADDRESSES.safe,
       "0x10000000000000000",
     ]);
-    await network.provider.request({
+    return await network.provider.request({
       method: "hardhat_impersonateAccount",
       params: [ADDRESSES.safe],
     });
   });
   after(async () => {
-    await network.provider.request({
+    return await network.provider.request({
       method: "hardhat_stopImpersonatingAccount",
       params: [ADDRESSES.safe],
     });
@@ -150,6 +153,7 @@ describe("Failing mint & reverting scenario", async () => {
         (await minter.deployTransaction.wait()).gasUsed
       }`
     );
+    return;
   });
 
   it("Step 2/4: transfer Balot ownership", async () => {
@@ -158,12 +162,13 @@ describe("Failing mint & reverting scenario", async () => {
 
     await balotFromSafe.transferOwnership(minter.address);
 
-    expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
+    await expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
       minter.address.toUpperCase()
     );
+    return;
   });
   it("Step 3/4: safe mint range FAILED", async () => {
-    await expect(
+    return await expect(
       minter.safeMintRange(
         ADDRESSES.balot,
         ADDRESSES.safe,
@@ -190,5 +195,6 @@ describe("Failing mint & reverting scenario", async () => {
         (await transferCollectionTx.wait()).gasUsed
       }`
     );
+    return;
   });
 });
