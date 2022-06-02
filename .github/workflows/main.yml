@@ -25,6 +25,7 @@ jobs:
   check-hardhat:
     name: Hardhat project
     runs-on: ubuntu-latest
+    environment: test
     steps:
       - uses: actions/checkout@v3
         with:

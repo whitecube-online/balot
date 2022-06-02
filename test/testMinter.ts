@@ -46,7 +46,7 @@ describe("Balot", async () => {
       // 1. Deploy Minter
       minter = await Minter.deploy();
 
-      // 2. Tranfer Balot ownership to minter
+      // 2. Transfer Balot ownership to minter
       await balot.transferOwnership(minter.address);
 
       const start = 1,
@@ -117,7 +117,7 @@ describe("Balot", async () => {
       // 1. Deploy Minter
       minter = await Minter.deploy();
 
-      // 2. Tranfer Balot ownership to minter
+      // 2. Transfer Balot ownership to minter
       await balot.transferOwnership(minter.address);
 
       const start = 1,
