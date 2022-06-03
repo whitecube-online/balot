@@ -91,7 +91,6 @@ describe("All good scenario", async function () {
     const safeMintRangeTx = await minter.safeMintRange(
       ADDRESSES.balot,
       ADDRESSES.safe,
-      ADDRESSES.safe,
       1,
       300
     );
@@ -100,9 +99,6 @@ describe("All good scenario", async function () {
       await balotFromSafe.balanceOf(ADDRESSES.safe)
     );
     expect(newSafeBalance).to.equal(initialSafeBalance + 300);
-    expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
-      ADDRESSES.safe.toUpperCase()
-    );
 
     console.debug(
       `SafeMintRange gas used: ${(await safeMintRangeTx.wait()).gasUsed}`
@@ -173,13 +169,7 @@ describe("Failing mint & reverting scenario", async function () {
   });
   it("Step 3/4: safe mint range FAILED", async () => {
     return await expect(
-      minter.safeMintRange(
-        ADDRESSES.balot,
-        ADDRESSES.safe,
-        ADDRESSES.safe,
-        1,
-        1000
-      )
+      minter.safeMintRange(ADDRESSES.balot, ADDRESSES.safe, 1, 1000)
     ).to.be.revertedWith(
       "Transaction reverted: contract call run out of gas and made the transaction revert"
     );
