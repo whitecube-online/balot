@@ -2,36 +2,12 @@
 
 > A radical new model turns the NFT into a tool for decolonization.
 
-## Deploying
-
-1. Find open RPC interfaces by visiting: https://ethereumnodes.com and set
-   `ETH_RPC_URL`.
-2. In `.sethrc`, change `ETH_FROM` to current account
-3. With
-   [`web3-eth-accounts`](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-accounts.html#web3-eth-accounts)
-   create keystore3 JSON and copy into `keys.json` file.
-4. Execute the command below:
+## Deploying Minter.sol to the Rinkeby test network
 
 ```bash
-dapp create Balot <constructor nextOwner, baseURI> --verify
+chmod +x ./scripts/deploy_rinkeby.sh
+./scripts/deploy_rinkeby.sh
 ```
-
-Note: String arguments have to be double quoted in bash, e.g., `'"hello world"'`
-
-5. In case verification fails in deploy step, it can later be done too.
-
-```bash
-dapp verify-contract ./src/Balot.sol:Balot <contract addr> "<constructor nextOwner, baseURI>"
-```
-
-Another option to get the contract code verified by Etherscan is by flattening
-the file with `hevm`:
-
-```bash
-hevm flatten --source-file src/Balot.sol > out/Balot.sol
-```
-
-`Balot.sol` can then just be uploaded through Etherscan's web form.
 
 ## Contracts
 
