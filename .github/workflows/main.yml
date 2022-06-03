@@ -38,5 +38,10 @@ jobs:
       - name: Install HartHat
         run: npm ci --dev
 
-      - name: Run test
-        run: npx hardhat test
+      - name: Run contract interaction tests
+        run: npx hardhat test test/testMinter.ts
+
+      - name: Run scenarios tests
+        run: npx hardhat test test/testScenarios.ts
+        env:
+          ARCHIVE_NODE_API: ${{ secrets.ARCHIVE_NODE_API}}
