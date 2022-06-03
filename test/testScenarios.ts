@@ -166,7 +166,7 @@ describe("Failing mint & reverting scenario", async function () {
 
     await balotFromSafe.transferOwnership(minter.address);
 
-    await expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
+    expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
       minter.address.toUpperCase()
     );
     return;
