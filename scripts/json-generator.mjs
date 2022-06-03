@@ -13,14 +13,14 @@ const template = (number, fileType) => ({
 });
 const directory = "./files";
 
-const imageType = "png";
+const imageType = "gif";
 const start = 1;
-const end = 300;
+const end = 306;
 
 async function run() {
   for (let i = start; i <= end; i++) {
     const metadata = JSON.stringify(template(i, imageType));
-    const filePath = resolve(__dirname, directory, `${i}`);
+    const filePath = resolve(__dirname, directory, `${i}.json`);
     await writeFile(filePath, metadata);
   }
 }
