@@ -19,7 +19,9 @@ const ADDRESSES = {
   safe: "0xf078544e774faf5d10dd04c43f443a80c917c49c",
 };
 
-describe("All good scenario", async () => {
+describe("All good scenario", async function () {
+  this.timeout(2 * 60 * 1000);
+
   let minterOwner: SignerWithAddress,
     minter: Contract,
     balotFromSafe: Contract,
@@ -109,7 +111,9 @@ describe("All good scenario", async () => {
   });
 });
 
-describe("Failing mint & reverting scenario", async () => {
+describe("Failing mint & reverting scenario", async function () {
+  this.timeout(2 * 60 * 1000);
+
   let minterOwner: SignerWithAddress, minter: Contract, balotFromSafe: Contract;
 
   before(async () => {
