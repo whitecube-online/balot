@@ -35,11 +35,10 @@ describe("Balot", async () => {
   describe("Minter.safeMintRange in order", async () => {
     let minter: Contract,
       minterOwner: SignerWithAddress,
-      nextOwner: SignerWithAddress,
       recipient: SignerWithAddress;
 
     beforeEach(async () => {
-      [, minterOwner, nextOwner, recipient] = await ethers.getSigners();
+      [, minterOwner, recipient] = await ethers.getSigners();
 
       const Minter = await ethers.getContractFactory("Minter", minterOwner);
 
@@ -52,17 +51,7 @@ describe("Balot", async () => {
       const start = 1,
         end = 300;
       // 3. Range mint + transfer Balot ownership
-      await minter.safeMintRange(
-        balot.address,
-        nextOwner.address,
-        recipient.address,
-        start,
-        end
-      );
-    });
-
-    it("should transfer ownership", async () => {
-      expect(await balot.owner()).to.be.equal(nextOwner.address);
+      await minter.safeMintRange(balot.address, recipient.address, start, end);
     });
   });
 
@@ -70,19 +59,17 @@ describe("Balot", async () => {
     let minter: Contract,
       minterOwner: SignerWithAddress,
       attacker: SignerWithAddress,
-      attackerNextOwner: SignerWithAddress,
       attackerRecipient: SignerWithAddress;
 
     beforeEach(async () => {
-      [, minterOwner, attacker, attackerNextOwner, attackerRecipient] =
-        await ethers.getSigners();
+      [, minterOwner, attacker, attackerRecipient] = await ethers.getSigners();
 
       const Minter = await ethers.getContractFactory("Minter", minterOwner);
 
       // 1. Deploy Minter
       minter = await Minter.deploy();
 
-      // 2. Tranfer Balot ownership to minter
+      // 2. Transfer Balot ownership to minter
       await balot.transferOwnership(minter.address);
     });
 
@@ -94,7 +81,6 @@ describe("Balot", async () => {
       await expect(
         attackedMinter.safeMintRange(
           balot.address,
-          attackerNextOwner.address,
           attackerRecipient.address,
           start,
           end
@@ -106,11 +92,10 @@ describe("Balot", async () => {
   describe("Failing Minter.safeMintRange", async () => {
     let minter: Contract,
       minterOwner: SignerWithAddress,
-      nextOwner: SignerWithAddress,
       recipient: SignerWithAddress;
 
     beforeEach(async () => {
-      [, minterOwner, nextOwner, recipient] = await ethers.getSigners();
+      [, minterOwner, recipient] = await ethers.getSigners();
 
       const Minter = await ethers.getContractFactory("Minter", minterOwner);
 
@@ -124,13 +109,7 @@ describe("Balot", async () => {
         end = 9999;
       // 3. Range mint + transfer Balot ownership
       await expect(
-        minter.safeMintRange(
-          balot.address,
-          nextOwner.address,
-          recipient.address,
-          start,
-          end
-        )
+        minter.safeMintRange(balot.address, recipient.address, start, end)
       ).to.be.revertedWith(
         "Transaction reverted: contract call run out of gas and made the transaction revert"
       );

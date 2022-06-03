@@ -13,7 +13,6 @@ interface Balot {
 contract Minter is Ownable {
   function safeMintRange(
     address collection,
-    address nextOwner,
     address to,
     uint16 start,
     uint16 end
@@ -25,7 +24,6 @@ contract Minter is Ownable {
         ".json"
       )));
     }
-    b.transferOwnership(nextOwner);
   }
 
   function transferCollection(address collection, address nextOwner) external onlyOwner {
