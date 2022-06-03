@@ -57,7 +57,7 @@ describe("All good scenario", async function () {
     });
   });
 
-  it("Step 1/3: deploy minter", async () => {
+  it("Step 1/4: deploy minter", async () => {
     [minterOwner] = await ethers.getSigners();
 
     const Minter = await ethers.getContractFactory("Minter", minterOwner);
@@ -71,7 +71,7 @@ describe("All good scenario", async function () {
     return;
   });
 
-  it("Step 2/3: transfer Balot ownership", async () => {
+  it("Step 2/4: transfer Balot ownership", async () => {
     const safeSigner = await ethers.getSigner(ADDRESSES.safe);
     balotFromSafe = new ethers.Contract(ADDRESSES.balot, BALOT_ABI, safeSigner);
 
@@ -87,7 +87,7 @@ describe("All good scenario", async function () {
     return;
   });
 
-  it("Step 3/3: safe mint range", async () => {
+  it("Step 3/4: safe mint range", async () => {
     const safeMintRangeTx = await minter.safeMintRange(
       ADDRESSES.balot,
       ADDRESSES.safe,
@@ -102,6 +102,23 @@ describe("All good scenario", async function () {
 
     console.debug(
       `SafeMintRange gas used: ${(await safeMintRangeTx.wait()).gasUsed}`
+    );
+    return;
+  });
+  it("Step 4/4: transfer Balot ownership back to Safe", async () => {
+    const transferCollectionTx = await minter.transferCollection(
+      ADDRESSES.balot,
+      ADDRESSES.safe
+    );
+
+    expect((await balotFromSafe.owner()).toUpperCase()).to.equal(
+      ADDRESSES.safe.toUpperCase()
+    );
+
+    console.debug(
+      `transferCollection gas used: ${
+        (await transferCollectionTx.wait()).gasUsed
+      }`
     );
     return;
   });
