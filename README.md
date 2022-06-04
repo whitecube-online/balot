@@ -14,6 +14,7 @@ chmod +x ./scripts/deploy_rinkeby.sh
 - Mainnet
   - Gnosis Safe [xF078544e774Faf5D10dD04C43F443A80C917C49c](https://gnosis-safe.io/app/eth:0xF078544e774Faf5D10dD04C43F443A80C917C49c/)
   - Collection [0x6b877dfaf74b22913a494d1fc95d7e30c2b88ea1](https://etherscan.io/address/0x6b877dfaf74b22913a494d1fc95d7e30c2b88ea1)
+  - Minter [0xf478aF3BD5fdEF9e300E8E62C0429721086C369a](https://etherscan.io/address/0xf478aF3BD5fdEF9e300E8E62C0429721086C369a)
 - Goerli
   - Gnosis Safe: [0x54385C523B4F71C3a61F739109635aFCe63E6db2](https://gnosis-safe.io/app/gor:0x54385C523B4F71C3a61F739109635aFCe63E6db2)
   - Collection: [0x63eb4debc3d15460b0cc187efdb6d799b2606096](https://goerli.etherscan.io/address/0x63eb4debc3d15460b0cc187efdb6d799b2606096)
