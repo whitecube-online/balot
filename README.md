@@ -31,11 +31,15 @@ chmod +x ./scripts/deploy_rinkeby.sh
 
 - It's required you have [`foundry`](https://github.com/foundry-rs/foundry)
   installed.
+- Install the dev node packages using node and npm versions as specified
+  in package.json
 
 ```bash
 git clone git@github.com:whitecube-online/balot.git
 forge install
+npm ci --include=dev
 forge test
+npx hardhat test
 ```
 
 ## Changelog
